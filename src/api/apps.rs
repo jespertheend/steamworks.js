@@ -89,4 +89,10 @@ pub mod apps {
         let client = crate::client::get_client();
         client.apps().current_beta_name()
     }
+
+    #[napi]
+    pub fn launch_command_line() -> String {
+        let client = crate::client::get_client();
+        client.apps().launch_command_line()
+    }
 }
