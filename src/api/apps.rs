@@ -95,4 +95,10 @@ pub mod apps {
         let client = crate::client::get_client();
         client.apps().launch_command_line()
     }
+
+    #[napi]
+    pub fn launch_query_param(key: String) -> String {
+        let client = crate::client::get_client();
+        client.apps().launch_query_param(&key)
+    }
 }

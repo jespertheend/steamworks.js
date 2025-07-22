@@ -28,6 +28,7 @@ export declare namespace apps {
   export function currentGameLanguage(): string
   export function currentBetaName(): string | null
   export function launchCommandLine(): string
+  export function launchQueryParam(key: string): string
 }
 export declare namespace auth {
   /**
