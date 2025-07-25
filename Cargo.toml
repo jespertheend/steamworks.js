@@ -11,7 +11,7 @@ napi = { version = "2.16.8", features = ["tokio_rt", "napi6", "serde-json"] }
 napi-derive = "2.16.9"
 lazy_static = "1"
 tokio = { version = "1", features = ["sync", "time"] }
-steamworks = { git = "https://github.com/jespertheend/steamworks-rs/", rev = "649d711b095ed10d9267a67b64678728a4030180", features = ["serde"] }
+steamworks = { git = "https://github.com/jespertheend/steamworks-rs/", rev = "d73532e990fdd3739fcccb30317f2b38f8b81146", features = ["serde"] }
 serde = "1"
 serde_json = "1"
 

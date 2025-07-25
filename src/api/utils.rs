@@ -20,6 +20,12 @@ pub mod utils {
     }
 
     #[napi]
+    pub fn is_steam_in_big_picture_mode() -> bool {
+        let client = crate::client::get_client();
+        client.utils().is_steam_in_big_picture_mode()
+    }
+
+    #[napi]
     pub fn is_steam_running_on_steam_deck() -> bool {
         let client = crate::client::get_client();
         client.utils().is_steam_running_on_steam_deck()

@@ -222,6 +222,7 @@ export declare namespace stats {
 export declare namespace utils {
   export function getAppId(): number
   export function getServerRealTime(): number
+  export function isSteamInBigPictureMode(): boolean
   export function isSteamRunningOnSteamDeck(): boolean
   export const enum GamepadTextInputMode {
     Normal = 0,
