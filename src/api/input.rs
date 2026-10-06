@@ -1,4 +1,3 @@
-use napi::bindgen_prelude::BigInt;
 use napi_derive::napi;
 
 #[napi]
@@ -72,21 +71,51 @@ pub mod input {
             match value {
                 steamworks::sys::EInputSourceMode::k_EInputSourceMode_None => InputSourceMode::None,
                 steamworks::sys::EInputSourceMode::k_EInputSourceMode_Dpad => InputSourceMode::Dpad,
-                steamworks::sys::EInputSourceMode::k_EInputSourceMode_Buttons => InputSourceMode::Buttons,
-                steamworks::sys::EInputSourceMode::k_EInputSourceMode_FourButtons => InputSourceMode::FourButtons,
-                steamworks::sys::EInputSourceMode::k_EInputSourceMode_AbsoluteMouse => InputSourceMode::AbsoluteMouse,
-                steamworks::sys::EInputSourceMode::k_EInputSourceMode_RelativeMouse => InputSourceMode::RelativeMouse,
-                steamworks::sys::EInputSourceMode::k_EInputSourceMode_JoystickMove => InputSourceMode::JoystickMove,
-                steamworks::sys::EInputSourceMode::k_EInputSourceMode_JoystickMouse => InputSourceMode::JoystickMouse,
-                steamworks::sys::EInputSourceMode::k_EInputSourceMode_JoystickCamera => InputSourceMode::JoystickCamera,
-                steamworks::sys::EInputSourceMode::k_EInputSourceMode_ScrollWheel => InputSourceMode::ScrollWheel,
-                steamworks::sys::EInputSourceMode::k_EInputSourceMode_Trigger => InputSourceMode::Trigger,
-                steamworks::sys::EInputSourceMode::k_EInputSourceMode_TouchMenu => InputSourceMode::TouchMenu,
-                steamworks::sys::EInputSourceMode::k_EInputSourceMode_MouseJoystick => InputSourceMode::MouseJoystick,
-                steamworks::sys::EInputSourceMode::k_EInputSourceMode_MouseRegion => InputSourceMode::MouseRegion,
-                steamworks::sys::EInputSourceMode::k_EInputSourceMode_RadialMenu => InputSourceMode::RadialMenu,
-                steamworks::sys::EInputSourceMode::k_EInputSourceMode_SingleButton => InputSourceMode::SingleButton,
-                steamworks::sys::EInputSourceMode::k_EInputSourceMode_Switches => InputSourceMode::Switches,
+                steamworks::sys::EInputSourceMode::k_EInputSourceMode_Buttons => {
+                    InputSourceMode::Buttons
+                }
+                steamworks::sys::EInputSourceMode::k_EInputSourceMode_FourButtons => {
+                    InputSourceMode::FourButtons
+                }
+                steamworks::sys::EInputSourceMode::k_EInputSourceMode_AbsoluteMouse => {
+                    InputSourceMode::AbsoluteMouse
+                }
+                steamworks::sys::EInputSourceMode::k_EInputSourceMode_RelativeMouse => {
+                    InputSourceMode::RelativeMouse
+                }
+                steamworks::sys::EInputSourceMode::k_EInputSourceMode_JoystickMove => {
+                    InputSourceMode::JoystickMove
+                }
+                steamworks::sys::EInputSourceMode::k_EInputSourceMode_JoystickMouse => {
+                    InputSourceMode::JoystickMouse
+                }
+                steamworks::sys::EInputSourceMode::k_EInputSourceMode_JoystickCamera => {
+                    InputSourceMode::JoystickCamera
+                }
+                steamworks::sys::EInputSourceMode::k_EInputSourceMode_ScrollWheel => {
+                    InputSourceMode::ScrollWheel
+                }
+                steamworks::sys::EInputSourceMode::k_EInputSourceMode_Trigger => {
+                    InputSourceMode::Trigger
+                }
+                steamworks::sys::EInputSourceMode::k_EInputSourceMode_TouchMenu => {
+                    InputSourceMode::TouchMenu
+                }
+                steamworks::sys::EInputSourceMode::k_EInputSourceMode_MouseJoystick => {
+                    InputSourceMode::MouseJoystick
+                }
+                steamworks::sys::EInputSourceMode::k_EInputSourceMode_MouseRegion => {
+                    InputSourceMode::MouseRegion
+                }
+                steamworks::sys::EInputSourceMode::k_EInputSourceMode_RadialMenu => {
+                    InputSourceMode::RadialMenu
+                }
+                steamworks::sys::EInputSourceMode::k_EInputSourceMode_SingleButton => {
+                    InputSourceMode::SingleButton
+                }
+                steamworks::sys::EInputSourceMode::k_EInputSourceMode_Switches => {
+                    InputSourceMode::Switches
+                }
                 _ => InputSourceMode::None,
             }
         }
@@ -97,21 +126,51 @@ pub mod input {
             match value {
                 InputSourceMode::None => steamworks::sys::EInputSourceMode::k_EInputSourceMode_None,
                 InputSourceMode::Dpad => steamworks::sys::EInputSourceMode::k_EInputSourceMode_Dpad,
-                InputSourceMode::Buttons => steamworks::sys::EInputSourceMode::k_EInputSourceMode_Buttons,
-                InputSourceMode::FourButtons => steamworks::sys::EInputSourceMode::k_EInputSourceMode_FourButtons,
-                InputSourceMode::AbsoluteMouse => steamworks::sys::EInputSourceMode::k_EInputSourceMode_AbsoluteMouse,
-                InputSourceMode::RelativeMouse => steamworks::sys::EInputSourceMode::k_EInputSourceMode_RelativeMouse,
-                InputSourceMode::JoystickMove => steamworks::sys::EInputSourceMode::k_EInputSourceMode_JoystickMove,
-                InputSourceMode::JoystickMouse => steamworks::sys::EInputSourceMode::k_EInputSourceMode_JoystickMouse,
-                InputSourceMode::JoystickCamera => steamworks::sys::EInputSourceMode::k_EInputSourceMode_JoystickCamera,
-                InputSourceMode::ScrollWheel => steamworks::sys::EInputSourceMode::k_EInputSourceMode_ScrollWheel,
-                InputSourceMode::Trigger => steamworks::sys::EInputSourceMode::k_EInputSourceMode_Trigger,
-                InputSourceMode::TouchMenu => steamworks::sys::EInputSourceMode::k_EInputSourceMode_TouchMenu,
-                InputSourceMode::MouseJoystick => steamworks::sys::EInputSourceMode::k_EInputSourceMode_MouseJoystick,
-                InputSourceMode::MouseRegion => steamworks::sys::EInputSourceMode::k_EInputSourceMode_MouseRegion,
-                InputSourceMode::RadialMenu => steamworks::sys::EInputSourceMode::k_EInputSourceMode_RadialMenu,
-                InputSourceMode::SingleButton => steamworks::sys::EInputSourceMode::k_EInputSourceMode_SingleButton,
-                InputSourceMode::Switches => steamworks::sys::EInputSourceMode::k_EInputSourceMode_Switches,
+                InputSourceMode::Buttons => {
+                    steamworks::sys::EInputSourceMode::k_EInputSourceMode_Buttons
+                }
+                InputSourceMode::FourButtons => {
+                    steamworks::sys::EInputSourceMode::k_EInputSourceMode_FourButtons
+                }
+                InputSourceMode::AbsoluteMouse => {
+                    steamworks::sys::EInputSourceMode::k_EInputSourceMode_AbsoluteMouse
+                }
+                InputSourceMode::RelativeMouse => {
+                    steamworks::sys::EInputSourceMode::k_EInputSourceMode_RelativeMouse
+                }
+                InputSourceMode::JoystickMove => {
+                    steamworks::sys::EInputSourceMode::k_EInputSourceMode_JoystickMove
+                }
+                InputSourceMode::JoystickMouse => {
+                    steamworks::sys::EInputSourceMode::k_EInputSourceMode_JoystickMouse
+                }
+                InputSourceMode::JoystickCamera => {
+                    steamworks::sys::EInputSourceMode::k_EInputSourceMode_JoystickCamera
+                }
+                InputSourceMode::ScrollWheel => {
+                    steamworks::sys::EInputSourceMode::k_EInputSourceMode_ScrollWheel
+                }
+                InputSourceMode::Trigger => {
+                    steamworks::sys::EInputSourceMode::k_EInputSourceMode_Trigger
+                }
+                InputSourceMode::TouchMenu => {
+                    steamworks::sys::EInputSourceMode::k_EInputSourceMode_TouchMenu
+                }
+                InputSourceMode::MouseJoystick => {
+                    steamworks::sys::EInputSourceMode::k_EInputSourceMode_MouseJoystick
+                }
+                InputSourceMode::MouseRegion => {
+                    steamworks::sys::EInputSourceMode::k_EInputSourceMode_MouseRegion
+                }
+                InputSourceMode::RadialMenu => {
+                    steamworks::sys::EInputSourceMode::k_EInputSourceMode_RadialMenu
+                }
+                InputSourceMode::SingleButton => {
+                    steamworks::sys::EInputSourceMode::k_EInputSourceMode_SingleButton
+                }
+                InputSourceMode::Switches => {
+                    steamworks::sys::EInputSourceMode::k_EInputSourceMode_Switches
+                }
             }
         }
     }
@@ -1394,7 +1453,9 @@ pub mod input {
     #[napi]
     pub fn init(explicitly_call_run_frame: Option<bool>) -> bool {
         let client = crate::client::get_client();
-        client.input().init(explicitly_call_run_frame.unwrap_or(false))
+        client
+            .input()
+            .init(explicitly_call_run_frame.unwrap_or(false))
     }
 
     #[napi]
@@ -1438,13 +1499,17 @@ pub mod input {
     #[napi]
     pub fn get_glyph_for_action_origin(action_origin: InputActionOrigin) -> String {
         let client = crate::client::get_client();
-        client.input().get_glyph_for_action_origin(action_origin.into())
+        client
+            .input()
+            .get_glyph_for_action_origin(action_origin.into())
     }
 
     #[napi]
     pub fn get_string_for_action_origin(action_origin: InputActionOrigin) -> String {
         let client = crate::client::get_client();
-        client.input().get_string_for_action_origin(action_origin.into())
+        client
+            .input()
+            .get_string_for_action_origin(action_origin.into())
     }
 
     #[napi]
@@ -1483,10 +1548,7 @@ pub mod input {
     }
 
     #[napi]
-    pub fn get_analog_action_data(
-        input_handle: BigInt,
-        action_handle: BigInt,
-    ) -> AnalogActionData {
+    pub fn get_analog_action_data(input_handle: BigInt, action_handle: BigInt) -> AnalogActionData {
         let client = crate::client::get_client();
         let data = client
             .input()
