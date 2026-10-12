@@ -1628,4 +1628,7 @@ pub mod input {
         let client = crate::client::get_client();
         client.input().shutdown()
     }
+
+    #[napi]
+    pub const STEAM_INPUT_HANDLE_ALL_CONTROLLERS: u64 = u64::MAX;
 }

@@ -569,6 +569,7 @@ export declare namespace input {
   export function getMotionData(inputHandle: bigint): MotionData
   export function showBindingPanel(inputHandle: bigint): boolean
   export function shutdown(): void
+  export const STEAM_INPUT_HANDLE_ALL_CONTROLLERS: bigint
 }
 export declare namespace localplayer {
   export function getSteamId(): PlayerSteamId
