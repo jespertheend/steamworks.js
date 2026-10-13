@@ -530,14 +530,14 @@ export declare namespace input {
     HoripadR4 = 409
   }
   export interface DigitalActionData {
-    bState: boolean
-    bActive: boolean
+    state: boolean
+    active: boolean
   }
   export interface AnalogActionData {
-    eMode: InputSourceMode
+    mode: InputSourceMode
     x: number
     y: number
-    bActive: boolean
+    active: boolean
   }
   export interface MotionData {
     rotQuatX: number

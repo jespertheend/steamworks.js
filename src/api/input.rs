@@ -1424,16 +1424,16 @@ pub mod input {
     }
     #[napi(object)]
     pub struct DigitalActionData {
-        pub b_state: bool,
-        pub b_active: bool,
+        pub state: bool,
+        pub active: bool,
     }
 
     #[napi(object)]
     pub struct AnalogActionData {
-        pub e_mode: InputSourceMode,
+        pub mode: InputSourceMode,
         pub x: f64,
         pub y: f64,
-        pub b_active: bool,
+        pub active: bool,
     }
 
     #[napi(object)]
@@ -1542,8 +1542,8 @@ pub mod input {
             .input()
             .get_digital_action_data(input_handle.get_u64().1, action_handle.get_u64().1);
         DigitalActionData {
-            b_state: data.bState,
-            b_active: data.bActive,
+            state: data.bState,
+            active: data.bActive,
         }
     }
 
@@ -1554,10 +1554,10 @@ pub mod input {
             .input()
             .get_analog_action_data(input_handle.get_u64().1, action_handle.get_u64().1);
         AnalogActionData {
-            e_mode: data.eMode.into(),
+            mode: data.eMode.into(),
             x: data.x as f64,
             y: data.y as f64,
-            b_active: data.bActive,
+            active: data.bActive,
         }
     }
 
