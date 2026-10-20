@@ -8,7 +8,7 @@ pub mod matchmaking {
     use steamworks::LobbyId;
     use tokio::sync::oneshot;
 
-    #[napi]
+    #[napi(string_enum)]
     pub enum LobbyType {
         Private,
         FriendsOnly,

@@ -17,7 +17,7 @@ pub mod networking {
         pub steam_id: PlayerSteamId,
     }
 
-    #[napi]
+    #[napi(string_enum)]
     /// The method used to send a packet
     pub enum SendType {
         /// Send the packet directly over udp.

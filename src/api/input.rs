@@ -45,7 +45,7 @@ pub mod input {
         }
     }
 
-    #[napi]
+    #[napi(string_enum)]
     pub enum InputSourceMode {
         None,
         Dpad,
@@ -174,7 +174,7 @@ pub mod input {
             }
         }
     }
-    #[napi]
+    #[napi(string_enum)]
     pub enum InputGlyphSize {
         Small,
         Medium,
@@ -190,7 +190,7 @@ pub mod input {
         SolidAbxy = 0x20,
     }
 
-    #[napi]
+    #[napi(string_enum)]
     pub enum InputActionOrigin {
         None,
         SteamControllerA,

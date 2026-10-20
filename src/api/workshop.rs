@@ -17,7 +17,7 @@ pub mod workshop {
     }
 
     #[derive(Debug)]
-    #[napi]
+    #[napi(string_enum)]
     pub enum UgcItemVisibility {
         Public,
         FriendsOnly,
@@ -109,7 +109,7 @@ pub mod workshop {
     }
 
     #[derive(Debug)]
-    #[napi]
+    #[napi(string_enum)]
     pub enum UpdateStatus {
         Invalid,
         PreparingConfig,

@@ -9,7 +9,7 @@ pub mod workshop {
     use crate::api::localplayer::PlayerSteamId;
     use crate::api::workshop::workshop::UgcItemVisibility;
 
-    #[napi]
+    #[napi(string_enum)]
     pub enum UGCQueryType {
         RankedByVote,
         RankedByPublicationDate,
@@ -90,7 +90,7 @@ pub mod workshop {
         }
     }
 
-    #[napi]
+    #[napi(string_enum)]
     pub enum UGCType {
         Items,
         ItemsMtx,
@@ -129,7 +129,7 @@ pub mod workshop {
         }
     }
 
-    #[napi]
+    #[napi(string_enum)]
     pub enum UserListType {
         Published,
         VotedOn,
@@ -158,7 +158,7 @@ pub mod workshop {
         }
     }
 
-    #[napi]
+    #[napi(string_enum)]
     pub enum UserListOrder {
         CreationOrderAsc,
         CreationOrderDesc,

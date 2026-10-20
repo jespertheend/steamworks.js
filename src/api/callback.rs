@@ -36,7 +36,7 @@ pub mod callback {
         }
     }
 
-    #[napi]
+    #[napi(string_enum)]
     pub enum SteamCallback {
         PersonaStateChange,
         SteamServersConnected,

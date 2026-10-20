@@ -31,13 +31,13 @@ pub mod utils {
         client.utils().is_steam_running_on_steam_deck()
     }
 
-    #[napi]
+    #[napi(string_enum)]
     pub enum GamepadTextInputMode {
         Normal,
         Password,
     }
 
-    #[napi]
+    #[napi(string_enum)]
     pub enum GamepadTextInputLineMode {
         SingleLine,
         MultipleLines,
@@ -86,7 +86,7 @@ pub mod utils {
         }
     }
 
-    #[napi]
+    #[napi(string_enum)]
     pub enum FloatingGamepadTextInputMode {
         SingleLine,
         MultipleLines,

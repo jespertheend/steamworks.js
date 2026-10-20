@@ -6,7 +6,7 @@ pub mod overlay {
     use std::fmt;
     use steamworks::OverlayToStoreFlag;
 
-    #[napi]
+    #[napi(string_enum)]
     pub enum Dialog {
         Friends,
         Community,
@@ -31,7 +31,7 @@ pub mod overlay {
         }
     }
 
-    #[napi]
+    #[napi(string_enum)]
     pub enum StoreFlag {
         None,
         AddToCart,
