@@ -117,6 +117,18 @@ export declare namespace input {
     SingleButton = 15,
     Switches = 16
   }
+  export const enum InputGlyphSize {
+    Small = 0,
+    Medium = 1,
+    Large = 2
+  }
+  export const enum GlyphStyle {
+    Knockout = 0,
+    Light = 1,
+    Dark = 2,
+    NeutralColorAbxy = 16,
+    SolidAbxy = 32
+  }
   export const enum InputActionOrigin {
     None = 0,
     SteamControllerA = 1,
@@ -558,6 +570,8 @@ export declare namespace input {
   export function getActionSetHandle(actionSetName: string): bigint
   export function getInputTypeForHandle(inputHandle: bigint): InputType
   export function getGlyphForActionOrigin(actionOrigin: InputActionOrigin): string
+  export function getGlyphPngForActionOrigin(actionOrigin: InputActionOrigin, size: InputGlyphSize, glyphStyle: number): string
+  export function getGlyphSvgForActionOrigin(actionOrigin: InputActionOrigin, glyphStyle: number): string
   export function getStringForActionOrigin(actionOrigin: InputActionOrigin): string
   export function activateActionSet(inputHandle: bigint, actionSetHandle: bigint): void
   export function getDigitalActionHandle(actionName: string): bigint

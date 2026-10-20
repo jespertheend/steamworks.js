@@ -175,6 +175,22 @@ pub mod input {
         }
     }
     #[napi]
+    pub enum InputGlyphSize {
+        Small,
+        Medium,
+        Large,
+    }
+
+    #[napi]
+    pub enum GlyphStyle {
+        Knockout = 0x0,
+        Light = 0x1,
+        Dark = 0x2,
+        NeutralColorAbxy = 0x10,
+        SolidAbxy = 0x20,
+    }
+
+    #[napi]
     pub enum InputActionOrigin {
         None,
         SteamControllerA,
@@ -1502,6 +1518,36 @@ pub mod input {
         client
             .input()
             .get_glyph_for_action_origin(action_origin.into())
+    }
+
+    #[napi]
+    pub fn get_glyph_png_for_action_origin(
+        action_origin: InputActionOrigin,
+        size: InputGlyphSize,
+        glyph_style: u32,
+    ) -> String {
+        let client = crate::client::get_client();
+        let size = match size {
+            InputGlyphSize::Small => steamworks::GlyphSize::Small,
+            InputGlyphSize::Medium => steamworks::GlyphSize::Medium,
+            InputGlyphSize::Large => steamworks::GlyphSize::Large,
+        };
+        let style = steamworks::GlyphStyle::from_bits_truncate(glyph_style);
+        client
+            .input()
+            .get_glyph_png_for_action_origin(action_origin.into(), size, style)
+    }
+
+    #[napi]
+    pub fn get_glyph_svg_for_action_origin(
+        action_origin: InputActionOrigin,
+        glyph_style: u32,
+    ) -> String {
+        let client = crate::client::get_client();
+        let style = steamworks::GlyphStyle::from_bits_truncate(glyph_style);
+        client
+            .input()
+            .get_glyph_svg_for_action_origin(action_origin.into(), style)
     }
 
     #[napi]
