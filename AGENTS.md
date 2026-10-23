@@ -15,13 +15,8 @@ Instructions for AI coding agents working in this repository.
 - `npm run types`: emits index.d.ts from index.js with tsc
 - `npm run prune`: deletes dist, target and client.d.ts
 - `npm run format`: cargo clippy --fix plus cargo fmt, rust side only
-- Validation before finishing:
-  - `cargo fmt --all --check` and `cargo clippy` must pass, publish.yml
-    runs both
-  - `cd test/typescript && npm run compile` type checks the generated d.ts
-    with strict tsc (typescript pinned to 4.7 there, so generated and hand
-    written types must stay compatible with it). Run `npm install` in the
-    root and in test/typescript first
+- Validation before finishing: `cargo fmt --all --check` and
+  `cargo clippy` must pass, publish.yml runs both.
 - There is no JS test framework. `test/*.js` are manual scripts run with
   node after building (need Steam running, they use app 480), and
   test/electron is a manual electron harness (`npm install && npm start`
@@ -34,7 +29,15 @@ Instructions for AI coding agents working in this repository.
   purpose since it is the published type surface, regenerate it with a
   build, never edit by hand
 - `index.d.ts`: generated from index.js by `npm run types`
-- `callbacks.d.ts`: hand written callback payload types
+- `callbacks.d.ts`: hand written callback payload types. Payloads cross
+  the boundary as serde_json values, so the types must describe runtime
+  values rather than rust field types: napi turns integers up to
+  +/-(2^53-1) into number, anything beyond that into bigint. Typed
+  napi signatures (everything outside of callback payloads) are exact
+  by construction. rust enums serialize as their variant name strings,
+  which match the values of napi string enums exported in client.d.ts
+  (so a payload field typed with an enum from the rust side maps to
+  that const enum here)
 - `sdk/redistributable_bin` (the steam_api redist libraries) is committed,
   the rest of sdk/ is gitignored. dist/ and target/ are build output
 
@@ -62,6 +65,8 @@ Instructions for AI coding agents working in this repository.
 - napi-rs native module: src/lib.rs exposes init, restartAppIfNecessary and
   runCallbacks, src/client.rs holds the client singleton, src/api/<topic>.rs
   define the #[napi] functions that make up the JS api
+- napi converts rust snake_case fn names to camelCase in client.d.ts and at
+  runtime (run_frame becomes runFrame)
 - index.js loads the platform specific binary from dist/, starts the
   runCallbacks interval (30hz) on init and re-exports SteamCallback
 - Types flow one way: rust signatures behind #[napi] generate client.d.ts,

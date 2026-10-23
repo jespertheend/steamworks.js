@@ -49,6 +49,10 @@ pub mod callback {
         GameLobbyJoinRequested,
         MicroTxnAuthorizationResponse,
         NewUrlLaunchParameters,
+        SteamInputConfigurationLoaded,
+        SteamInputDeviceConnected,
+        SteamInputDeviceDisconnected,
+        SteamInputGamepadSlotChange,
     }
 
     #[napi(ts_generic_types = "C extends keyof import('./callbacks').CallbackReturns")]
@@ -94,6 +98,18 @@ pub mod callback {
             }
             SteamCallback::NewUrlLaunchParameters => {
                 register_callback::<steamworks::NewUrlLaunchParameters>(threadsafe_handler)
+            }
+            SteamCallback::SteamInputConfigurationLoaded => {
+                register_callback::<steamworks::SteamInputConfigurationLoaded>(threadsafe_handler)
+            }
+            SteamCallback::SteamInputDeviceConnected => {
+                register_callback::<steamworks::SteamInputDeviceConnected>(threadsafe_handler)
+            }
+            SteamCallback::SteamInputDeviceDisconnected => {
+                register_callback::<steamworks::SteamInputDeviceDisconnected>(threadsafe_handler)
+            }
+            SteamCallback::SteamInputGamepadSlotChange => {
+                register_callback::<steamworks::SteamInputGamepadSlotChange>(threadsafe_handler)
             }
         };
 

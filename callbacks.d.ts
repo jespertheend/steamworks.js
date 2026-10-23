@@ -56,4 +56,26 @@ export interface CallbackReturns {
     [client.callback.SteamCallback.NewUrlLaunchParameters]: {
         reason: number
     }
+    [client.callback.SteamCallback.SteamInputConfigurationLoaded]: {
+        app_id: number
+        device_handle: number | bigint
+        mapping_creator: bigint
+        major_revision: number
+        minor_revision: number
+        uses_steam_input_api: boolean
+        uses_gamepad_api: boolean
+    }
+    [client.callback.SteamCallback.SteamInputDeviceConnected]: {
+        device_handle: number | bigint
+    }
+    [client.callback.SteamCallback.SteamInputDeviceDisconnected]: {
+        device_handle: number | bigint
+    }
+    [client.callback.SteamCallback.SteamInputGamepadSlotChange]: {
+        app_id: number
+        device_handle: number | bigint
+        device_type: client.input.InputType
+        old_gamepad_slot: number
+        new_gamepad_slot: number
+    }
 }

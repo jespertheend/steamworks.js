@@ -59,7 +59,11 @@ export declare namespace callback {
     P2PSessionConnectFail = 'P2PSessionConnectFail',
     GameLobbyJoinRequested = 'GameLobbyJoinRequested',
     MicroTxnAuthorizationResponse = 'MicroTxnAuthorizationResponse',
-    NewUrlLaunchParameters = 'NewUrlLaunchParameters'
+    NewUrlLaunchParameters = 'NewUrlLaunchParameters',
+    SteamInputConfigurationLoaded = 'SteamInputConfigurationLoaded',
+    SteamInputDeviceConnected = 'SteamInputDeviceConnected',
+    SteamInputDeviceDisconnected = 'SteamInputDeviceDisconnected',
+    SteamInputGamepadSlotChange = 'SteamInputGamepadSlotChange'
   }
   export function register<C extends keyof import('./callbacks').CallbackReturns>(steamCallback: C, handler: (value: import('./callbacks').CallbackReturns[C]) => void): Handle
   export class Handle {
@@ -565,6 +569,12 @@ export declare namespace input {
   }
   export function init(explicitlyCallRunFrame?: boolean | undefined | null): boolean
   export function runFrame(): void
+  /**
+   * Enables the SteamInputDeviceConnected and SteamInputDeviceDisconnected callbacks.
+   * Each controller that is already connected will generate a device connected
+   * callback once enabled.
+   */
+  export function enableDeviceCallbacks(): void
   export function getConnectedControllers(): Array<bigint>
   export function setInputActionManifestFilePath(path: string): boolean
   export function getActionSetHandle(actionSetName: string): bigint

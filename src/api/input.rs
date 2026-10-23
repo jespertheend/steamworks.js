@@ -1480,6 +1480,15 @@ pub mod input {
         client.input().run_frame()
     }
 
+    /// Enables the SteamInputDeviceConnected and SteamInputDeviceDisconnected callbacks.
+    /// Each controller that is already connected will generate a device connected
+    /// callback once enabled.
+    #[napi]
+    pub fn enable_device_callbacks() {
+        let client = crate::client::get_client();
+        client.input().enable_device_callbacks()
+    }
+
     #[napi]
     pub fn get_connected_controllers() -> Vec<BigInt> {
         let client = crate::client::get_client();
