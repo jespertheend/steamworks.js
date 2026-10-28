@@ -20,19 +20,19 @@ rlInterface.question('Enter a lobby id or press enter to create one: ', async lo
     let lobby
     if (lobbyId) {
         lobby = await client.matchmaking.joinLobby(BigInt(lobbyId))
-        lobby.getMembers().forEach(peer => {
+        client.matchmaking.getLobbyMembers(lobby).forEach(peer => {
             client.networking.sendP2PPacket(peer.steamId64, client.networking.SendType.Reliable, Buffer.from('Connection request'))
         })
     } else {
         lobby = await client.matchmaking.createLobby(client.matchmaking.LobbyType.Public, 10)
-        console.log(`Created lobby with id ${lobby.id}`)
+        console.log(`Created lobby with id ${lobby}`)
     }
 
     let askChatMessage
     askChatMessage = () => {
         rlInterface.question(client.localplayer.getName() + ': ', line => {
             const message = client.localplayer.getName() + ': ' + line
-            lobby.getMembers().forEach(peer => {
+            client.matchmaking.getLobbyMembers(lobby).forEach(peer => {
                 client.networking.sendP2PPacket(peer.steamId64, client.networking.SendType.Reliable, Buffer.from(message))
             })
             askChatMessage()

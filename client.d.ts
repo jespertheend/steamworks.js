@@ -609,30 +609,25 @@ export declare namespace matchmaking {
     Public = 'Public',
     Invisible = 'Invisible'
   }
-  export function createLobby(lobbyType: LobbyType, maxMembers: number): Promise<Lobby>
-  export function joinLobby(lobbyId: bigint): Promise<Lobby>
-  export function getLobbies(): Promise<Array<Lobby>>
-  export class Lobby {
-    id: bigint
-    join(): Promise<Lobby>
-    leave(): void
-    openInviteDialog(): void
-    getMemberCount(): bigint
-    getMemberLimit(): bigint | null
-    getMembers(): Array<PlayerSteamId>
-    getOwner(): PlayerSteamId
-    setJoinable(joinable: boolean): boolean
-    getData(key: string): string | null
-    setData(key: string, value: string): boolean
-    deleteData(key: string): boolean
-    /** Get an object containing all the lobby data */
-    getFullData(): Record<string, string>
-    /**
-     * Merge current lobby data with provided data in a single batch
-     * @returns true if all data was set successfully
-     */
-    mergeFullData(data: Record<string, string>): boolean
-  }
+  export function createLobby(lobbyType: LobbyType, maxMembers: number): Promise<bigint>
+  export function joinLobby(lobbyId: bigint): Promise<bigint>
+  export function getLobbies(): Promise<Array<bigint>>
+  export function leaveLobby(lobbyId: bigint): void
+  export function getLobbyMemberCount(lobbyId: bigint): bigint
+  export function getLobbyMemberLimit(lobbyId: bigint): bigint | null
+  export function getLobbyMembers(lobbyId: bigint): Array<PlayerSteamId>
+  export function getLobbyOwner(lobbyId: bigint): PlayerSteamId
+  export function setLobbyJoinable(lobbyId: bigint, joinable: boolean): boolean
+  export function getLobbyData(lobbyId: bigint, key: string): string | null
+  export function setLobbyData(lobbyId: bigint, key: string, value: string): boolean
+  export function deleteLobbyData(lobbyId: bigint, key: string): boolean
+  /** Get an object containing all the lobby data */
+  export function getLobbyFullData(lobbyId: bigint): Record<string, string>
+  /**
+   * Merge current lobby data with provided data in a single batch
+   * @returns true if all data was set successfully
+   */
+  export function mergeLobbyFullData(lobbyId: bigint, data: Record<string, string>): boolean
 }
 export declare namespace networking {
   export interface P2PPacket {

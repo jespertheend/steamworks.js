@@ -15,26 +15,32 @@ setTimeout(() => {
 }, 5000);
 
 (async () => {
-    const lobby = await client.matchmaking.createLobby(client.matchmaking.LobbyType.Public, 2)
-    console.log(lobby.id)
+    const lobbyId = await client.matchmaking.createLobby(client.matchmaking.LobbyType.Public, 2)
+    console.log(lobbyId)
 
-    lobby.setData('batata', '1')
-    lobby.mergeFullData({
+    client.matchmaking.setLobbyData(lobbyId, 'batata', '1')
+    client.matchmaking.mergeLobbyFullData(lobbyId, {
         'hello': 'world',
         'batata': '2'
     })
-    console.log(lobby.getFullData())
+    console.log(client.matchmaking.getLobbyFullData(lobbyId))
 
     console.log("=====")
-    console.log(lobby.getData('batata'))
+    console.log(client.matchmaking.getLobbyData(lobbyId, 'batata'))
 
-    lobby.leave();
+    client.matchmaking.leaveLobby(lobbyId);
 
     console.log("=====")
     const lobbies = await client.matchmaking.getLobbies()
-    console.log(lobbies.map(lobby => lobby.id))
+    console.log(lobbies)
 
-    const lobbyWithMorePeople = await lobbies.sort((a, b) => Number(b.getMemberCount() - a.getMemberCount()))[1].join()
-    console.log("Joined at " + lobbyWithMorePeople.id + " with " + lobbyWithMorePeople.getMemberCount() + " members:")
-    console.log(lobbyWithMorePeople.getMembers())
+    const lobbyWithMorePeople = lobbies.sort((a, b) =>
+        Number(client.matchmaking.getLobbyMemberCount(b)) - Number(client.matchmaking.getLobbyMemberCount(a))
+    )[1]
+    const joinedLobbyId = await client.matchmaking.joinLobby(lobbyWithMorePeople)
+    console.log("Joined at " + joinedLobbyId + " with " + client.matchmaking.getLobbyMemberCount(joinedLobbyId) + " members:")
+    console.log(client.matchmaking.getLobbyMembers(joinedLobbyId))
+
+    // The runCallbacks interval set by init() keeps the process alive, exit manually once done
+    process.exit()
 })();

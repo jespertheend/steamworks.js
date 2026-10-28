@@ -5,7 +5,6 @@ pub mod matchmaking {
     use crate::api::localplayer::PlayerSteamId;
     use napi::bindgen_prelude::{BigInt, Error};
     use std::collections::HashMap;
-    use steamworks::LobbyId;
     use tokio::sync::oneshot;
 
     #[napi(string_enum)]
@@ -16,122 +15,12 @@ pub mod matchmaking {
         Invisible,
     }
 
-    #[napi]
-    pub struct Lobby {
-        pub id: BigInt,
-        lobby_id: LobbyId,
+    fn to_lobby_id(lobby_id: &BigInt) -> steamworks::LobbyId {
+        steamworks::LobbyId::from_raw(lobby_id.get_u64().1)
     }
 
     #[napi]
-    impl Lobby {
-        #[napi]
-        pub async fn join(&self) -> Result<Lobby, Error> {
-            join_lobby(self.id.clone()).await
-        }
-
-        #[napi]
-        pub fn leave(&self) {
-            let client = crate::client::get_client();
-            client.matchmaking().leave_lobby(self.lobby_id);
-        }
-
-        #[napi]
-        pub fn open_invite_dialog(&self) {
-            let client = crate::client::get_client();
-            client.friends().activate_invite_dialog(self.lobby_id);
-        }
-
-        #[napi]
-        pub fn get_member_count(&self) -> usize {
-            let client = crate::client::get_client();
-            client.matchmaking().lobby_member_count(self.lobby_id)
-        }
-
-        #[napi]
-        pub fn get_member_limit(&self) -> Option<usize> {
-            let client = crate::client::get_client();
-            client.matchmaking().lobby_member_limit(self.lobby_id)
-        }
-
-        #[napi]
-        pub fn get_members(&self) -> Vec<PlayerSteamId> {
-            let client = crate::client::get_client();
-            client
-                .matchmaking()
-                .lobby_members(self.lobby_id)
-                .into_iter()
-                .map(PlayerSteamId::from_steamid)
-                .collect()
-        }
-
-        #[napi]
-        pub fn get_owner(&self) -> PlayerSteamId {
-            let client = crate::client::get_client();
-            PlayerSteamId::from_steamid(client.matchmaking().lobby_owner(self.lobby_id))
-        }
-
-        #[napi]
-        pub fn set_joinable(&self, joinable: bool) -> bool {
-            let client = crate::client::get_client();
-            client
-                .matchmaking()
-                .set_lobby_joinable(self.lobby_id, joinable)
-        }
-
-        #[napi]
-        pub fn get_data(&self, key: String) -> Option<String> {
-            let client = crate::client::get_client();
-            client
-                .matchmaking()
-                .lobby_data(self.lobby_id, &key)
-                .map(|s| s.to_string())
-        }
-
-        #[napi]
-        pub fn set_data(&self, key: String, value: String) -> bool {
-            let client = crate::client::get_client();
-            client
-                .matchmaking()
-                .set_lobby_data(self.lobby_id, &key, &value)
-        }
-
-        #[napi]
-        pub fn delete_data(&self, key: String) -> bool {
-            let client = crate::client::get_client();
-            client.matchmaking().delete_lobby_data(self.lobby_id, &key)
-        }
-
-        /// Get an object containing all the lobby data
-        #[napi]
-        pub fn get_full_data(&self) -> HashMap<String, String> {
-            let client = crate::client::get_client();
-
-            let mut data = HashMap::new();
-
-            let count = client.matchmaking().lobby_data_count(self.lobby_id);
-            for i in 0..count {
-                let maybe_lobby_data = client.matchmaking().lobby_data_by_index(self.lobby_id, i);
-
-                if let Some((key, value)) = maybe_lobby_data {
-                    data.insert(key, value);
-                }
-            }
-
-            data
-        }
-
-        /// Merge current lobby data with provided data in a single batch
-        /// @returns true if all data was set successfully
-        #[napi]
-        pub fn merge_full_data(&self, data: HashMap<String, String>) -> bool {
-            let matchmaking = crate::client::get_client().matchmaking();
-            data.iter()
-                .all(|(key, value)| matchmaking.set_lobby_data(self.lobby_id, key, value))
-        }
-    }
-
-    #[napi]
-    pub async fn create_lobby(lobby_type: LobbyType, max_members: u32) -> Result<Lobby, Error> {
+    pub async fn create_lobby(lobby_type: LobbyType, max_members: u32) -> Result<BigInt, Error> {
         let client = crate::client::get_client();
 
         let (tx, rx) = oneshot::channel();
@@ -151,37 +40,30 @@ pub mod matchmaking {
 
         rx.await
             .unwrap()
-            .map(|lobby_id| Lobby {
-                id: BigInt::from(lobby_id.raw()),
-                lobby_id,
-            })
+            .map(|lobby_id| BigInt::from(lobby_id.raw()))
             .map_err(|e| Error::from_reason(e.to_string()))
     }
 
     #[napi]
-    pub async fn join_lobby(lobby_id: BigInt) -> Result<Lobby, Error> {
+    pub async fn join_lobby(lobby_id: BigInt) -> Result<BigInt, Error> {
         let client = crate::client::get_client();
 
         let (tx, rx) = oneshot::channel();
 
-        client.matchmaking().join_lobby(
-            steamworks::LobbyId::from_raw(lobby_id.get_u64().1),
-            |result| {
+        client
+            .matchmaking()
+            .join_lobby(to_lobby_id(&lobby_id), |result| {
                 tx.send(result).unwrap();
-            },
-        );
+            });
 
         rx.await
             .unwrap()
-            .map(|lobby_id| Lobby {
-                id: BigInt::from(lobby_id.raw()),
-                lobby_id,
-            })
+            .map(|lobby_id| BigInt::from(lobby_id.raw()))
             .map_err(|_| Error::from_reason("Failed to join lobby".to_string()))
     }
 
     #[napi]
-    pub async fn get_lobbies() -> Result<Vec<Lobby>, Error> {
+    pub async fn get_lobbies() -> Result<Vec<BigInt>, Error> {
         let client = crate::client::get_client();
 
         let (tx, rx) = oneshot::channel();
@@ -195,12 +77,111 @@ pub mod matchmaking {
             .map(|lobbies| {
                 lobbies
                     .iter()
-                    .map(|lobby_id| Lobby {
-                        id: BigInt::from(lobby_id.raw()),
-                        lobby_id: *lobby_id,
-                    })
+                    .map(|lobby_id| BigInt::from(lobby_id.raw()))
                     .collect()
             })
             .map_err(|e| Error::from_reason(e.to_string()))
+    }
+
+    #[napi]
+    pub fn leave_lobby(lobby_id: BigInt) {
+        let client = crate::client::get_client();
+        client.matchmaking().leave_lobby(to_lobby_id(&lobby_id));
+    }
+
+    #[napi]
+    pub fn get_lobby_member_count(lobby_id: BigInt) -> usize {
+        let client = crate::client::get_client();
+        client
+            .matchmaking()
+            .lobby_member_count(to_lobby_id(&lobby_id))
+    }
+
+    #[napi]
+    pub fn get_lobby_member_limit(lobby_id: BigInt) -> Option<usize> {
+        let client = crate::client::get_client();
+        client
+            .matchmaking()
+            .lobby_member_limit(to_lobby_id(&lobby_id))
+    }
+
+    #[napi]
+    pub fn get_lobby_members(lobby_id: BigInt) -> Vec<PlayerSteamId> {
+        let client = crate::client::get_client();
+        client
+            .matchmaking()
+            .lobby_members(to_lobby_id(&lobby_id))
+            .into_iter()
+            .map(PlayerSteamId::from_steamid)
+            .collect()
+    }
+
+    #[napi]
+    pub fn get_lobby_owner(lobby_id: BigInt) -> PlayerSteamId {
+        let client = crate::client::get_client();
+        PlayerSteamId::from_steamid(client.matchmaking().lobby_owner(to_lobby_id(&lobby_id)))
+    }
+
+    #[napi]
+    pub fn set_lobby_joinable(lobby_id: BigInt, joinable: bool) -> bool {
+        let client = crate::client::get_client();
+        client
+            .matchmaking()
+            .set_lobby_joinable(to_lobby_id(&lobby_id), joinable)
+    }
+
+    #[napi]
+    pub fn get_lobby_data(lobby_id: BigInt, key: String) -> Option<String> {
+        let client = crate::client::get_client();
+        client
+            .matchmaking()
+            .lobby_data(to_lobby_id(&lobby_id), &key)
+            .map(|s| s.to_string())
+    }
+
+    #[napi]
+    pub fn set_lobby_data(lobby_id: BigInt, key: String, value: String) -> bool {
+        let client = crate::client::get_client();
+        client
+            .matchmaking()
+            .set_lobby_data(to_lobby_id(&lobby_id), &key, &value)
+    }
+
+    #[napi]
+    pub fn delete_lobby_data(lobby_id: BigInt, key: String) -> bool {
+        let client = crate::client::get_client();
+        client
+            .matchmaking()
+            .delete_lobby_data(to_lobby_id(&lobby_id), &key)
+    }
+
+    /// Get an object containing all the lobby data
+    #[napi]
+    pub fn get_lobby_full_data(lobby_id: BigInt) -> HashMap<String, String> {
+        let client = crate::client::get_client();
+        let lobby_id = to_lobby_id(&lobby_id);
+
+        let mut data = HashMap::new();
+
+        let count = client.matchmaking().lobby_data_count(lobby_id);
+        for i in 0..count {
+            let maybe_lobby_data = client.matchmaking().lobby_data_by_index(lobby_id, i);
+
+            if let Some((key, value)) = maybe_lobby_data {
+                data.insert(key, value);
+            }
+        }
+
+        data
+    }
+
+    /// Merge current lobby data with provided data in a single batch
+    /// @returns true if all data was set successfully
+    #[napi]
+    pub fn merge_lobby_full_data(lobby_id: BigInt, data: HashMap<String, String>) -> bool {
+        let lobby_id = to_lobby_id(&lobby_id);
+        let matchmaking = crate::client::get_client().matchmaking();
+        data.iter()
+            .all(|(key, value)| matchmaking.set_lobby_data(lobby_id, key, value))
     }
 }
